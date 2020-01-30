@@ -1,0 +1,57 @@
+class Solution {
+    int[][] visited;
+    int[][] GP;
+    int gm,gn;
+  public int[] solution(int m, int n, int[][] picture) {
+      int numberOfArea = 0;
+      int maxSizeOfOneArea = 0;
+      GP=picture;
+      gm=m;
+      gn=n;
+      
+       
+      visited = new int[m][n];
+      
+      for(int i=0;i<m;i++){
+          for(int j=0; j<n;j++){
+              visited[i][j] = -1;
+          }
+      }
+      
+      for(int i=0;i<m;i++){
+          for(int j=0; j<n;j++){
+              if(visited[i][j] == -1 && picture[i][j] != 0){
+                  numberOfArea++;
+                  int nowArea = area_check(i,j,picture[i][j]);
+                  
+                  if(maxSizeOfOneArea < nowArea) {
+                      maxSizeOfOneArea = nowArea;
+                  }
+              }
+          }
+      }
+      int[] answer = new int[2];
+      answer[0] = numberOfArea;
+      answer[1] = maxSizeOfOneArea;
+      return answer;
+  }
+    
+    int area_check(int x,int y,int preColor){
+        if(x>=gm || x<0){
+            return 0;
+        }
+        if(y>=gn || y<0){
+            return 0;
+        }
+        if(visited[x][y] == 1){
+            return 0;
+        }
+        if(preColor != GP[x][y] || preColor == 0){
+            return 0;
+        }
+        visited[x][y] = 1;
+        return 1+area_check(x+1,y,preColor)+area_check(x,y+1,preColor)+area_check(x-1,y,preColor)+area_check(x,y-1,preColor);
+    } 
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/1829
