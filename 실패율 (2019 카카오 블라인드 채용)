@@ -1,0 +1,60 @@
+import java.util.Arrays;
+import java.util.Comparator;
+class Solution {
+        int[] dojun ;
+        int[] noClear ;
+        float[][] rate;
+        public int[] solution(int N, int[] stages) {
+            //Arrays.sort(stages);
+            int[] answer = new int[N];
+            dojun = new int[N];
+            noClear = new int[N];
+            rate = new float[N][2];
+            for(int i=0; i<stages.length;i++){
+                int value = stages[i] - 1;
+
+                if(value<N){
+                    noClear[value]++;
+                }
+                else {
+                    value = N-1;
+                }
+
+                for(int j=value; j>=0; j--){
+                    dojun[j]++;
+                }
+            }
+
+            for(int i=0; i<N ; i++){
+                rate[i][1] = i+1;
+                if(noClear[i] == 0 || dojun[i] ==0){
+                    rate[i][0] = 0;
+                }
+                else {
+                    rate[i][0] = (float)noClear[i] / (float)dojun[i];
+                }
+            }
+            Arrays.sort(rate, new Comparator<float[]>() {
+                public int compare(float[] arr1, float[] arr2) {
+                    if(arr1[0]==arr2[0]){
+                        if(arr1[1]>arr2[1]){
+                            return 1;
+                        }
+                        else {
+                            return -1;
+                        }
+                    }
+                    if( arr1[0] < arr2[0] )
+                        return 1;
+                    else
+                        return -1;
+                }
+            });
+            for(int i=0; i<N; i++){
+                answer[i] = (int)rate[i][1];
+                //System.out.printf("%d=%d= %d = %f(%f) \n",i+1,noClear[i],dojun[i], rate[i][0],rate[i][1]);
+            }
+            return answer;
+        }
+}
+//https://programmers.co.kr/learn/courses/30/lessons/42889?language=java
