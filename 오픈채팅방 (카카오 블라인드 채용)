@@ -1,0 +1,56 @@
+
+import java.util.HashMap;
+
+class Solution {
+    HashMap<String, String> map1 = new HashMap<>();
+    String[] answer;
+    String[] gRecord;
+    public String[] solution(String[] record) {
+        gRecord = record;
+        answer = new String[countAnswer()];
+        insertBase();
+        replaceUID();
+        return answer;
+    }
+    
+    void replaceUID(){
+        for(int i=0; i<answer.length;i++){
+            String id;
+            String name;
+            if(answer[i].split(" ")[0].indexOf("@") > -1){
+                id = answer[i].split(" ")[0].replace("@","");
+                answer[i] = map1.get(id)+"님이 " + answer[i].split(" ")[1];
+            }
+        }
+    }
+    
+    
+    int countAnswer(){
+        int count = 0;
+        for(int i=0; i<gRecord.length; i++){
+            String state = gRecord[i].split(" ")[0];
+            if(state.equals("Enter") || state.equals("Leave")){
+                count++;
+            }
+            if(state.equals("Enter") || state.equals("Change")){
+                map1.put(gRecord[i].split(" ")[1], gRecord[i].split(" ")[2]);
+            }
+        }
+        return count;
+    }
+    
+    void insertBase(){
+        
+        int count=0;
+        for(int i=0; i<gRecord.length; i++){
+            String state = gRecord[i].split(" ")[0];
+            if(state.equals("Enter") || state.equals("Leave")){
+                if(state.equals("Enter")){state="들어왔습니다."; }
+                if(state.equals("Leave")){state="나갔습니다."; }
+                answer[count] = gRecord[i].split(" ")[1]+"@ " + state;
+                count++;
+            }
+        }
+    }
+}
+//https://programmers.co.kr/learn/courses/30/lessons/42888#
