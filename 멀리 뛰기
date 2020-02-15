@@ -1,0 +1,18 @@
+class Solution {
+    int[] memo;
+  public long solution(int n) {
+      memo = new int[n+1];
+      return gogo(n);
+      
+  }
+
+    int gogo(int n) {
+        if(n == 0) return 1;
+        if(n < 0) return 0;
+        
+        if(memo[n] != 0) return memo[n];
+        return memo[n] = (gogo(n-1) + gogo(n-2))%1234567;
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/12914
