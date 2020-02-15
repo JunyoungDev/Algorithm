@@ -1,0 +1,19 @@
+class Solution {
+    int[][] triangle;
+    int[][] memo;
+    int glength = 0;
+    public int solution(int[][] arr) {
+        triangle = arr;
+        glength = arr.length;
+        memo = new int[glength][glength];
+        return gogo(0,0);
+    }
+    int gogo(int x, int y){
+        if(y == glength - 1) return triangle[y][x];
+        if(memo[y][x] != 0) return memo[y][x];
+        int value = triangle[y][x];
+        return memo[y][x] = Math.max(value + gogo(x,y+1),value + gogo(x+1,y+1));
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/43105
