@@ -1,0 +1,16 @@
+class Solution {
+    public long solution(int N) {
+        if(N == 1) return 4;
+        long answer = 0;
+        return gogo(N-1, 1, 1);
+    }   
+    
+    long gogo(int n, long width, long height){
+        if(n==0) return width*2 + height*2;
+        
+        if(n % 2 == 1) return gogo(n-1, width, height+width);
+        return gogo(n-1, width+height, height);
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/43104
