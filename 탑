@@ -1,0 +1,29 @@
+import java.util.*;
+
+class Solution {
+    public int[] solution(int[] heights) {
+        Stack<Integer> sHeight = new Stack<>();
+        Stack<Integer> sIndex = new Stack<>();
+        
+        int[] answer = new int[heights.length];
+        
+        sHeight.push(heights[heights.length-1]);
+        sIndex.push(heights.length-1);
+        for(int i=heights.length-2; i>=0 ;i--){
+            while(!sHeight.empty()){
+                if(heights[i] > sHeight.peek()){
+                    answer[sIndex.pop()] = i+1;
+                    sHeight.pop();
+                }
+                else {
+                    break;
+                }
+            }
+            sHeight.push(heights[i]);
+            sIndex.push(i);
+        }
+        return answer;
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/42588
