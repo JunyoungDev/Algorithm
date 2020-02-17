@@ -1,0 +1,29 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String[][] clothes) {
+        HashMap<String,Integer> map = new HashMap<>(); 
+        for(String[] row : clothes ){
+            String str = row[1];
+            
+            if(map.containsKey(str)){
+                map.put(str,map.get(str)+1);
+            }
+            else {
+                map.put(str,2);
+            }
+        }
+        int result = 1;
+        Set<String> keys = map.keySet();
+        for(String key : keys){
+            result *= map.get(key);
+        }
+            
+        
+        
+        return result-1;
+        
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/42578
