@@ -1,0 +1,34 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String str) {
+        int count = 0;
+        int stackCount = 0;
+        
+        for(int i=0; i<str.length() ; i++){
+            if(i < str.length()-1){ // 앞으로 두개이상 남았을 때
+                if(check_razer(str.charAt(i), str.charAt(i+1))){//레이저를 만났을때
+                    count += stackCount;
+                    i++;
+                    continue;
+                }
+                if(str.charAt(i) == '('){ //막대 시작?
+                  stackCount++;
+                    count++;
+                } 
+                else{ //막대 끝?
+                    stackCount--;
+                }
+                
+            }
+            
+        }
+        return count;
+    }
+    boolean check_razer(char c1, char c2){ //이것은 레이저인가
+        if(c1 == '(' && c2 == ')') return true;
+        return false;
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/42585
