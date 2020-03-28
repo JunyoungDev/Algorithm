@@ -1,0 +1,37 @@
+class Solution {
+    String[] gWords;
+    public int[] solution(String[] words, String[] queries) {
+        int l = queries.length;
+        int[] result = new int[l];
+        
+        for(int i=0; i<queries.length; i++){
+            for(int j=0; j<words.length ; j++){
+                result[i] +=  (checkMatch(words[j], queries[i])) ? 1 : 0;
+            }
+        }
+        return result;
+    }
+    //b를 키워드로 ?가능
+    boolean checkMatch(String a, String b){
+        //길이가 다르면 x
+        if(a.length() != b.length()) return false;
+        
+        // ?가 접두사인지 접미사인지
+        int start = (b.charAt(0)=='?') ? b.length()-1 :0;
+        int end = (start==0) ? b.length() : -1;
+        int ga = (start==0) ? 1 : -1;
+        
+        //하나씩 검사한다
+        for(int i=start; i!=end ; i += ga){
+            //물음표를 만나면 참 리턴
+            if(b.charAt(i) == '?') return true;
+            
+           // 다른문자라면 실패
+            if(a.charAt(i) != b.charAt(i)) return false;
+        }
+        //다 통과하면 같은 문자열
+        return true;
+    }
+}
+
+//다른 것은 다 통과했지만 효율성 1,2,3에서 탈락
