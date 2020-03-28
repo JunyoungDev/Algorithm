@@ -1,0 +1,37 @@
+import java.util.*;
+
+class Solution {
+    public int solution(String s) {
+        int r = s.length();
+        for(int i=1;i<=s.length();i++){
+            r = Math.min(countStr(s,"",i,0), r);
+        }
+        return r;
+    }
+    
+    //str 문자열을 n개로 나누었을 때 최소 갯수 (prev = 이전 자른 값 , num = 숫자카운트)
+    int countStr(String str, String prev, int n, int num){
+        //n보다 길이가 짧다면 길이 return
+        if(str.length() < n) return str.length();
+        //조각 문자열
+        String piece = str.substring(0,n); 
+        //다음함수 호출시 보낼 문자열
+        String nextStr = str.substring(n);
+        //이전 조각과 현재 조각이 같다면
+        if(piece.equals(prev)){
+            //숫자 표기가 되어있을때 그대로 다음함수 호출
+            if(num != 0){
+                int plus = (num == 9 || num == 99 || num == 999) ? 1 : 0;
+                return countStr(nextStr,piece,n,num+1)+plus;
+            }
+            //숫자표기가 안되어 있다면 숫자표기 하고 호출 (+1)
+            else {
+                return countStr(nextStr,piece,n,2)+1;
+            }
+        }
+        //이전 조각과 현재 조각이 다를때
+        else {
+                return countStr(nextStr,piece,n,0)+n;
+        }
+    }
+}
