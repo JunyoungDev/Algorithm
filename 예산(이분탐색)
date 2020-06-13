@@ -1,0 +1,57 @@
+import java.util.*;
+
+class Solution {
+    int limitMoney=0;
+    public int solution(int[] budgets, int M) {
+        int m = M;
+        //최초 상한액
+        for(int i=0; i< budgets.length; i++){
+            if(limitMoney < budgets[i]){
+                limitMoney = budgets[i];
+            }
+                m -= budgets[i];
+            
+        }
+        //현재 충분히 가능하면 상한액 return
+        if(m >= 0) return limitMoney;
+        
+        
+        //이분탐색
+        int left = 1;
+        int right = limitMoney;
+        int mid = (left+right) / 2;
+        while(true){
+            //mid로 상한액이 가능하다면 좀더 올려보자
+            if(possible(M,budgets,mid)){
+                limitMoney = mid;
+                left = mid+1;
+                mid = (left+right)/2;
+            }
+            else 
+            {
+            //불가능하면 내려보자 ㅜ
+                right = mid-1;
+                mid = (left+right)/2;
+            }
+              //기저사례
+            if(left == right) break;
+        }
+              
+        return limitMoney;
+    }
+    
+    //총예산 total에서 budgets요청이 들어왔을 때 lM 상한액으로 분배가능한가
+    boolean possible(int total, int[] budgets, int LM){
+        for(int i=0; i<budgets.length; i++){
+            total -= (budgets[i] > LM) ? LM : budgets[i];
+        }
+        if(total >= 0) return true;
+        return false;
+    }
+}
+
+
+//https://programmers.co.kr/learn/courses/30/lessons/43237
+
+//테스트 4,6,9 
+//효율성 2,3 실패
