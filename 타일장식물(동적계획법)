@@ -1,0 +1,21 @@
+class Solution {
+    public long solution(int N) {
+        long[] arr = new long[N];
+        
+        if(N == 1) return 4;
+        if(N == 2) return 6;
+        
+        arr[0] = 1;
+        arr[1] = 1;
+        for(int i=2 ; i<N ; i++){
+            arr[i] = arr[i-2] + arr[i-1];
+            //최종 결과값
+            if(N-1 == i){
+                return ((arr[i] * 2) + (arr[i]+arr[i-1])*2);
+            }
+        }
+        return 0;
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/43104
