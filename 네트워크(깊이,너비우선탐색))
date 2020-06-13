@@ -1,0 +1,35 @@
+class Solution {
+    boolean[] visited;
+    int N ;
+    int[][] Com;
+    public int solution(int n, int[][] computers) {
+        int answer = 0;
+        
+        visited = new boolean[n];
+        N=n;
+        Com = computers;
+        //하나씩 순회
+        for(int i=0; i<n; i++){
+            //첫방문이 아니면 continue;
+            if(visited[i]) continue;
+            answer++;
+            
+            //방문표시
+            check_visited(i);
+        }
+        return answer;
+    }
+    
+    void check_visited(int i){
+        
+            //연결되어있는 노드 true
+            for(int j=0; j<N ; j++){
+                if(Com[i][j] == 1 && !visited[j]) {
+                    visited[j] = true;
+                    check_visited(j);
+                }
+            }
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/43162
