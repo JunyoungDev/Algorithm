@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Solution {
+    int minResult;
+    public int solution(String begin, String target, String[] words) {
+        minResult= 51;
+        boolean[] visited = new boolean[words.length];
+        gogo(begin,target,words,visited,0);
+        
+        if(minResult == 51) return 0;
+        return minResult;
+    }
+    //현재 begin, target, words, 방문word
+    void gogo(String now, String target, String[] words, boolean[] visited, int count){
+        if(count > 51 ) return;
+        //target일때
+        if(now.equals(target)) {
+            if(count < minResult) minResult = count;
+            return ;
+        }
+        for(int i=0; i<visited.length; i++){
+            //해당 word를 방문하지 않았고 한글자만 다를때
+            if(!visited[i] && check_transtr(now,words[i])){
+                visited[i] = true;
+                gogo(words[i],target,words,visited,count+1);
+                visited[i] = false;
+            }
+        }
+        return;
+    }
+    
+    //a와 b가 하나만 다른가
+    boolean check_transtr(String a, String b){
+        int count=0;
+        for(int i=0; i<a.length(); i++){
+            //문자가 다르면 카운트
+            if(a.charAt(i) != b.charAt(i)){
+                count++;
+            }
+            //다른곳이 두군데 이상이면 f
+            if(count > 1) return false;
+        }
+        if(count == 1) return true;
+        
+        return false;
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/43163
