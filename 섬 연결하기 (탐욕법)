@@ -1,0 +1,74 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int n, int[][] costs) {
+        int count = 0;
+        int answer = 0;
+
+        //우선순위 큐
+        PriorityQueue<NodeDist> pQueue = new PriorityQueue<NodeDist>();
+        //연결 추가한 섬 리스트
+        boolean[] linkedNodes = new boolean[n];
+
+        //최초 0번 노드 삽입
+        pQueue.offer(new NodeDist(0, 0));
+
+        //모든 연결을 마칠 때까지 반복
+        while (count < n) {
+//            우선순위 큐에서 노드를 하나 꺼냄
+            NodeDist node = pQueue.poll();
+//            이미 연결된 노드면  미연결 노드가 나올때까지 꺼냄
+            while (isLinked(node.num, linkedNodes)) {
+                node = pQueue.poll();
+            }
+//             연결 체크, 개수 올리고 거리값 추가
+            linkedNodes[node.num] = true;
+            count++;
+            answer += node.dist;
+//            방금 꺼낸 노드와 연결된 노드 큐 삽입
+            pQueue = insertLinkedNodes(pQueue, costs, node.num);
+
+
+        }
+        return answer;
+    }
+
+    private PriorityQueue<NodeDist> insertLinkedNodes(PriorityQueue<NodeDist> pQueue, int[][] costs, int num) {
+        for (int[] row : costs) {
+            if (row[0] == num) {
+                pQueue.offer(new NodeDist(row[1], row[2]));
+                continue;
+            }
+            if (row[1] == num) {
+                pQueue.offer(new NodeDist(row[0], row[2]));
+                continue;
+            }
+        }
+        return pQueue;
+    }
+
+
+    private boolean isLinked(int num, boolean[] linkedNodes) {
+        return linkedNodes[num];
+    }
+}
+    //노드거리 클래스
+class NodeDist implements Comparable<NodeDist>{
+    int num;
+    int dist;
+
+    public NodeDist(int num, int dist){
+        super();
+        this.num = num;
+        this.dist = dist;
+    }
+
+    @Override
+    public int compareTo(NodeDist node) {
+        if(this.dist > node.dist) return 1;
+        if(this.dist == node.dist) return 0;
+        return -1;
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/42861?language=java
