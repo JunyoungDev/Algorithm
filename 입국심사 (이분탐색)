@@ -1,0 +1,39 @@
+import java.util.*;
+
+class Solution {
+    public long solution(int n, int[] times) {
+        
+        long left = 1;
+        long right = getMaxValue(times)*n;
+        long mid = (left + right) / 2;
+        while(true) {
+            mid = (left + right) / 2;
+            //System.out.println("left:"+left  + " mid:"+mid+ " right:"+right);
+            if (left > right) return left;
+            //mid 시간 최대 심사 수
+            long maxN = maxSimpanN(times, mid);
+            //대기 인원보다 더 많이 심사 할 수 있다면 시간을 줄여보자
+            if (maxN >= n) right = mid - 1;
+            if (maxN < n) left = mid + 1;
+        }
+    }
+    
+    //배열의 최대값
+    private long getMaxValue(int[] arr){
+        long max = 0;
+        for ( int a : arr) {
+            if(a>max) max = a;
+        }
+        return max;
+    }
+    //해당시간 최대 심사 인원 수
+    private long maxSimpanN(int[] arr, long time){
+        long sum = 0;
+        for ( int val : arr ) {
+            sum += time / val;
+        }
+        return sum;
+    }
+}
+
+//https://programmers.co.kr/learn/courses/30/lessons/43238
